@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Jugador</title>
+    <link rel="stylesheet" href="css/stats.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Perfil de Jugador</h1>
+
+        <form id="profile-form">
+            <div class="form-section">
+                <label for="player-name">Nombre de Jugador:</label>
+                <input type="text" id="player-name" required>
+
+                <label for="paddle-name">Nombre de la Pala:</label>
+                <input type="text" id="paddle-name">
+
+                <label for="fav-position">Posición Favorita:</label>
+                <select id="fav-position">
+                    <option value="Reves">Revés</option>
+                    <option value="Drive">Drive</option>
+                </select>
+
+                <label for="dominant-hand">Mano Dominante:</label>
+                <select id="dominant-hand">
+                    <option value="Derecha">Derecha</option>
+                    <option value="Izquierda">Izquierda</option>
+                </select>
+
+                <label for="height">Estatura (1.50 - 2.10 metros):</label>
+                <input type="number" id="height" min="1.50" max="2.10" step="0.01">
+            </div>
+
+            <h2>Estadísticas del Jugador</h2>
+
+            <div class="stats-section">
+                <div class="stat-input">
+                    <label for="defensa">Defensa</label>
+                    <input type="range" id="defensa" min="0" max="10" step="1">
+                </div>
+                <div class="stat-input">
+                    <label for="velocidad">Velocidad</label>
+                    <input type="range" id="velocidad" min="0" max="10" step="1">
+                </div>
+                <div class="stat-input">
+                    <label for="ataque">Ataque</label>
+                    <input type="range" id="ataque" min="0" max="10" step="1">
+                </div>
+                <div class="stat-input">
+                    <label for="posicionamiento">Posicionamiento</label>
+                    <input type="range" id="posicionamiento" min="0" max="10" step="1">
+                </div>
+                <div class="stat-input">
+                    <label for="vision-juego">Visión de Juego</label>
+                    <input type="range" id="vision-juego" min="0" max="10" step="1">
+                </div>
+                <div class="stat-input">
+                    <label for="intuicion">Intuición</label>
+                    <input type="range" id="intuicion" min="0" max="10" step="1">
+                </div>
+                <div class="stat-input">
+                    <label for="reflejos">Reflejos</label>
+                    <input type="range" id="reflejos" min="0" max="10" step="1">
+                </div>
+                <div class="stat-input">
+                    <label for="resto">Resto</label>
+                    <input type="range" id="resto" min="0" max="10" step="1">
+                </div>
+                <div class="stat-input">
+                    <label for="fondo-pista">Fondo Pista</label>
+                    <input type="range" id="fondo-pista" min="0" max="10" step="1">
+                </div>
+                <div class="stat-input">
+                    <label for="saque">Saque</label>
+                    <input type="range" id="saque" min="0" max="10" step="1">
+                </div>
+                <div class="stat-input">
+                    <label for="golpe-controlado">Golpe Controlado</label>
+                    <input type="range" id="golpe-controlado" min="0" max="10" step="1">
+                </div>
+                <div class="stat-input">
+                    <label for="volea">Volea</label>
+                    <input type="range" id="volea" min="0" max="10" step="1">
+                </div>
+                <div class="stat-input">
+                    <label for="bandeja-vibora">Bandeja/Víbora</label>
+                    <input type="range" id="bandeja-vibora" min="0" max="10" step="1">
+                </div>
+                <div class="stat-input">
+                    <label for="bloqueo">Bloqueo</label>
+                    <input type="range" id="bloqueo" min="0" max="10" step="1">
+                </div>
+                <div class="stat-input">
+                    <label for="smash">Smash</label>
+                    <input type="range" id="smash" min="0" max="10" step="1">
+                </div>
+                <div class="stat-input">
+                    <label for="lectura-rebotes">Lectura de Rebotes</label>
+                    <input type="range" id="lectura-rebotes" min="0" max="10" step="1">
+                </div>
+            </div>
+
+            <button type="button" id="save-profile">Guardar Perfil</button>
+        </form>
+
+        <div class="admin-section">
+            <button type="button" id="edit-stats" class="admin-btn">Editar Estadísticas (Admin)</button>
+        </div>
+
+        <div id="player-card" class="player-card">
+            <!-- Aquí se mostrarán las estadísticas del jugador de manera gráfica -->
+        </div>
+    </div>
+
+    <script src="js/stats.js"></script>
+</body>
+</html>
