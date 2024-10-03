@@ -1,101 +1,122 @@
-// Lista de participantes
-const participantes = [
-    "Partido Aplazado", "Mario / Carlos", "Peri / Raico", "Adri / Javi", "Juanan / Victor", 
-    "Angelo / Jose Luis", "David / Luis", "Paco / Rafa", "DavidM / SergioM",
-    "Vissen / Sergio", "Jaime / Manu", "Victor / Jaime"  
+
+
+const partidos = [
+    { hora: "17:15 - 18:30", equipo1: "Juanan/Victor", equipo2: "Adri/Javi", dia: 'dia1' },
+    { hora: "18:30 - 19:45", equipo1: "Mario/Carlos", equipo2: "Jaime/Manu", dia: 'dia1' },
+    { hora: "19:45 - 21:00", equipo1: "Victor/Jaime", equipo2: "David/Luis", dia: 'dia1' },
+    { hora: "21:00 - 22:15", equipo1: "Peri/Raico", equipo2: "Jaime/Manu", dia: 'dia1' },
+    { hora: "9:30 - 10:45", equipo1: "Paco/Rafa", equipo2: "Angelo/Jose Luis", dia: 'dia2' },
+    { hora: "10:45 - 12:00", equipo1: "Mario/Carlos", equipo2: "David M/Sergio M", dia: 'dia2' },
+    { hora: "12:00 - 13:15", equipo1: "Paco/Rafa", equipo2: "Victor/Jaime", dia: 'dia2' },
+    { hora: "16:00 - 17:15", equipo1: "Peri/Raico", equipo2: "David M/Sergio M", dia: 'dia2' },
+    { hora: "17:15 - 18:30", equipo1: "Vissen/Sergio", equipo2: "Adri/Javi", dia: 'dia2' },
+    { hora: "18:30 - 19:45", equipo1: "Peri/Raico", equipo2: "Mario/Carlos", dia: 'dia2' },
+    { hora: "19:45 - 21:00", equipo1: "Jaime/Manu", equipo2: "David M/Sergio M", dia: 'dia2' },
+    { hora: "21:00 - 22:15", equipo1: "David/Luis", equipo2: "Angelo/Jose Luis", dia: 'dia2' },
+    { hora: "9:30 - 10:45", equipo1: "Angelo/Jose Luis", equipo2: "Victor/Jaime", dia: 'dia3' },
+    { hora: "10:45 - 12:00", equipo1: "Juanan/Victor", equipo2: "Vissen/Sergio", dia: 'dia3' },
+    { hora: "12:00 - 13:15", equipo1: "David/Luis", equipo2: "Paco/Rafa", dia: 'dia3' }
 ];
 
-// Horarios de los partidos
-const horariosDia1 = ["16:00", "17:15", "18:20", "19:30", "20:40"];
-const horariosDia2 = ["9:30", "10:40", "11:50", "13:00", "16:00", "17:15", "18:20", "19:30", "20:40"];
-const horariosDia3 = ["9:30", "10:40", "11:50", "13:00", "16:00", "17:15", "18:20", "19:30", "20:40"];
+// Función para cargar los partidos en las tablas
+function cargarPartidos() {
+    partidos.forEach(partido => {
+        const matchesDia = document.querySelector(`#${partido.dia}`);
+        const matchBox = document.createElement("div");
+        matchBox.className = "match";
+        matchBox.id = `${partido.dia}-${partido.hora}`;
 
-// Función para generar select con participantes
-function generarSelect(value) {
-    const select = document.createElement('select');
-    participantes.forEach(participante => {
-        const option = document.createElement('option');
-        option.textContent = participante;
-        if (participante === value) {
-            option.selected = true;
+        // Obtener resultado del localStorage
+        const matchId = `${partido.dia}-${partido.hora}`;
+        const resultadoGuardado = JSON.parse(localStorage.getItem(matchId));
+
+        // Si hay resultado guardado, mostrarlo
+        if (resultadoGuardado) {
+            matchBox.innerHTML = `
+                <span>${partido.equipo1} vs ${partido.equipo2}</span>
+                <span>${resultadoGuardado.puntosEquipo1} - ${resultadoGuardado.puntosEquipo2}</span>
+                <button class="btnReset" data-match-id="${matchId}">Resetear</button>
+            `;
+        } else {
+            matchBox.innerHTML = `
+                <span>${partido.hora}</span>
+                <span>${partido.equipo1} vs ${partido.equipo2}</span>
+                <button class="btnResultado" data-equipo1="${partido.equipo1}" data-equipo2="${partido.equipo2}" data-hora="${partido.hora}" data-dia="${partido.dia}">Añadir resultado</button>
+            `;
         }
-        select.appendChild(option);
+
+        matchesDia.appendChild(matchBox);
     });
-    return select;
 }
 
-// Función para generar una fila de partido
-function generarFila(hora, diaId) {
-    const fila = document.createElement('tr');
+// Modal
+const modal = document.getElementById("modalResultado");
+const spanClose = document.getElementsByClassName("close")[0];
+let partidoSeleccionado;
 
-    const tdHora = document.createElement('td');
-    tdHora.className = 'time';
-    tdHora.textContent = hora;
+// Abrir el modal
+document.addEventListener("click", function (e) {
+    if (e.target && e.target.classList.contains("btnResultado")) {
+        partidoSeleccionado = {
+            equipo1: e.target.getAttribute("data-equipo1"),
+            equipo2: e.target.getAttribute("data-equipo2"),
+            hora: e.target.getAttribute("data-hora"),
+            dia: e.target.getAttribute("data-dia")
+        };
 
-    const tdPartido = document.createElement('td');
-    const select1 = generarSelect();
-    const select2 = generarSelect();
-    tdPartido.appendChild(select1);
-    tdPartido.appendChild(document.createTextNode(' vs '));
-    tdPartido.appendChild(select2);
-
-    const tdAcciones = document.createElement('td');
-    const btnFijar = document.createElement('button');
-    btnFijar.textContent = 'Confirmar';
-    const btnBorrar = document.createElement('button');
-    btnBorrar.textContent = 'Borrar';
-
-    btnFijar.onclick = () => fijarPartido(tdPartido, select1, select2, hora, diaId);
-    btnBorrar.onclick = () => borrarPartido(tdPartido, hora, diaId);
-
-    tdAcciones.appendChild(btnFijar);
-    tdAcciones.appendChild(btnBorrar);
-
-    fila.appendChild(tdHora);
-    fila.appendChild(tdPartido);
-    fila.appendChild(tdAcciones);
-
-    document.querySelector(`#${diaId} table tbody`).appendChild(fila);
-
-    // Cargar partido desde localStorage si existe
-    cargarPartido(tdPartido, hora, diaId);
-}
-
-// Función para fijar partido
-function fijarPartido(tdPartido, select1, select2, hora, diaId) {
-    const jugador1 = select1.value;
-    const jugador2 = select2.value;
-    tdPartido.innerHTML = `${jugador1} vs ${jugador2}`;
-
-    // Guardar en localStorage
-    guardarPartido(hora, diaId, jugador1, jugador2);
-}
-
-// Función para borrar partido
-function borrarPartido(tdPartido, hora, diaId) {
-    tdPartido.innerHTML = `${generarSelect().outerHTML} vs ${generarSelect().outerHTML}`;
-
-    // Borrar de localStorage
-    localStorage.removeItem(`${diaId}-${hora}`);
-}
-
-// Función para guardar el partido en localStorage
-function guardarPartido(hora, diaId, jugador1, jugador2) {
-    localStorage.setItem(`${diaId}-${hora}`, JSON.stringify({ jugador1, jugador2 }));
-}
-
-// Función para cargar el partido desde localStorage
-function cargarPartido(tdPartido, hora, diaId) {
-    const partidoGuardado = localStorage.getItem(`${diaId}-${hora}`);
-    if (partidoGuardado) {
-        const { jugador1, jugador2 } = JSON.parse(partidoGuardado);
-        tdPartido.innerHTML = `${jugador1} vs ${jugador2}`;
+        document.getElementById("modalPartido").textContent = `Resultado: ${partidoSeleccionado.equipo1} vs ${partidoSeleccionado.equipo2}`;
+        modal.style.display = "block";
     }
-}
+});
 
-// Generar partidos dinámicamente para Día 1
-horariosDia1.forEach(hora => generarFila(hora, 'dia1'));
-// Generar partidos dinámicamente para Día 2
-horariosDia2.forEach(hora => generarFila(hora, 'dia2'));
-// Generar partidos dinámicamente para Día 3
-horariosDia3.forEach(hora => generarFila(hora, 'dia3'));
+// Cerrar el modal
+spanClose.onclick = function () {
+    modal.style.display = "none";
+};
+
+// Confirmar el resultado
+document.getElementById("confirmarResultado").addEventListener("click", () => {
+    const puntosEquipo1 = document.getElementById("puntosEquipo1").value;
+    const puntosEquipo2 = document.getElementById("puntosEquipo2").value;
+
+    if (puntosEquipo1 && puntosEquipo2) {
+        // Crear una clave única para el resultado
+        const matchId = `${partidoSeleccionado.dia}-${partidoSeleccionado.hora}`;
+
+        // Guardar resultado en el localStorage
+        const resultado = { puntosEquipo1, puntosEquipo2 };
+        localStorage.setItem(matchId, JSON.stringify(resultado));
+
+        // Actualizar la caja del partido con el resultado
+        const matchBox = document.getElementById(matchId);
+        matchBox.innerHTML = `
+            <span>${partidoSeleccionado.equipo1} vs ${partidoSeleccionado.equipo2}</span>
+            <span>${puntosEquipo1} - ${puntosEquipo2}</span>
+            <button class="btnReset" data-match-id="${matchId}">Resetear</button>
+        `;
+
+        modal.style.display = "none";
+    } else {
+        alert("Por favor, introduce los puntos de ambos equipos.");
+    }
+});
+
+// Resetear el resultado del partido
+document.addEventListener("click", function (e) {
+    if (e.target && e.target.classList.contains("btnReset")) {
+        const matchId = e.target.getAttribute("data-match-id");
+        localStorage.removeItem(matchId); // Eliminar resultado guardado
+
+        // Resetear la caja del partido
+        const partido = partidos.find(p => `${p.dia}-${p.hora}` === matchId); // Encontrar el partido original
+        const matchBox = document.getElementById(matchId);
+        matchBox.innerHTML = `
+            <span>${partido.hora}</span>
+            <span>${partido.equipo1} vs ${partido.equipo2}</span>
+            <button class="btnResultado" data-equipo1="${partido.equipo1}" data-equipo2="${partido.equipo2}" data-hora="${partido.hora}" data-dia="${partido.dia}">Añadir resultado</button>
+        `;
+    }
+});
+
+// Cargar los partidos al cargar la página
+window.onload = cargarPartidos;
