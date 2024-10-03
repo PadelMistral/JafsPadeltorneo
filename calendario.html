@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Programación del Torneo de Pádel Residencial</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/stylesc.css">
 </head>
 <body>
 
@@ -30,60 +30,36 @@
     </div>
 </nav>
 
-<div class="container">
+    <div class="container">
+        <h2>Día 4: Viernes</h2>
+        <div class="matches" id="dia1"></div>
 
-    <!-- Programación Día 1 -->
-    <div class="schedule" id="dia1">
-        <h2>Viernes 4 de Octubre de 2024</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Hora</th>
-                    <th>Partido</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Partidos Día 1 se generarán dinámicamente -->
-            </tbody>
-        </table>
+        <h2>Día 5: Sábado</h2>
+        <div class="matches" id="dia2"></div>
+
+        <h2>Día 6: Domingo</h2>
+        <div class="matches" id="dia3"></div>
     </div>
 
-    <!-- Programación Día 2 -->
-    <div class="schedule" id="dia2">
-        <h2>Sábado 5 de Octubre de 2024</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Hora</th>
-                    <th>Partido</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Partidos Día 2 se generarán dinámicamente -->
-            </tbody>
-        </table>
+    <!-- Modal para añadir resultado -->
+    <div id="modalResultado" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalPartido"></h2>
+            <div>
+                <label>Puntos Equipo 1:</label>
+                <input type="number" id="puntosEquipo1" min="0">
+                <label>Puntos Equipo 2:</label>
+                <input type="number" id="puntosEquipo2" min="0">
+            </div>
+            <button id="confirmarResultado">Confirmar Resultado</button>
+            <button id="resetResultado">Resetear</button>
+        </div>
     </div>
 
-    <!-- Programación Día 3 -->
-    <div class="schedule" id="dia3">
-        <h2>Domingo 6 de Octubre de 2024</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Hora</th>
-                    <th>Partido</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Partidos Día 3 se generarán dinámicamente -->
-            </tbody>
-        </table>
-    </div>
-
-</div>
+    <script src="script.js"></script>
+</body>
+</html>
 
 <footer>
     <p>&copy; 2024 Torneo de Pádel Residencial. Todos los derechos reservados.</p>
