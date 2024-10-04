@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso al Torneo de Pádel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Torneo de Pádel</h1>
+
+        <div id="choiceContainer" class="form-container">
+            <h2>Bienvenido</h2>
+            <p>¿Tienes una cuenta?</p>
+            <button id="loginButton">Iniciar Sesión</button>
+            <button id="registerButton">Registrarse</button>
+        </div>
+
+        <div id="registerForm" class="form-container hidden">
+            <h2>Registro de Usuario</h2>
+            <form id="registration">
+                <label for="regUsername">Nombre de Usuario:</label>
+                <input type="text" id="regUsername" required>
+
+                <label for="regPassword">Contraseña:</label>
+                <input type="password" id="regPassword" required>
+
+                <button type="submit">Registrarse</button>
+                <button type="button" id="backToChoice">Atrás</button>
+            </form>
+        </div>
+
+        <div id="loginForm" class="form-container hidden">
+            <h2>Iniciar Sesión</h2>
+            <form id="login">
+                <label for="loginUsername">Nombre de Usuario:</label>
+                <input type="text" id="loginUsername" required>
+
+                <label for="loginPassword">Contraseña:</label>
+                <input type="password" id="loginPassword" required>
+
+                <button type="submit">Iniciar Sesión</button>
+                <button type="button" id="backToChoiceLogin">Atrás</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
